@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>apps | Web制作ポートフォリオ</title>
+
+<!-- ==========================================================
+     Google Fonts の読み込み
+     見出し: Zen Maru Gothic（丸みのあるゴシック体。TBチビ丸ゴシック的な
+             感じを狙って選定）
+     本文  : M PLUS Rounded 1c（同系統の丸ゴシックで可読性重視）
+     この2つのフォント名は style.css 内の --font-display / --font-body
+     という変数として登録されており、各要素はその変数経由で
+     フォントを指定している。
+     ========================================================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- ==========================================================
+     デザイン用CSSの読み込み（外部ファイル化）
+     色・フォント・レイアウトなど、見た目に関する指定はすべて
+     style.css にまとめてある。
+     ========================================================== -->
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     ヘッダー（画面上部に固定表示されるナビゲーション）
+     ロゴ＋各セクションへのアンカーリンク（#journey など）
+     ============================================================ -->
+<header>
+  <div class="wrap">
+    <div class="logo">apps<span>.note</span></div>
+    <nav>
+      <ul>
+        <!-- href="#journey" のように、各 <section> の id を指定して
+             クリックでそのセクションまでスムーズスクロールする -->
+        <li><a href="#journey">つくりかた</a></li>
+        <li><a href="#profile">プロフィール</a></li>
+        <li><a href="#apps">アプリ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO セクション（ページ最上部）
+     ・PC幅では「左：キャッチコピー＋ボタン／右：写真」の2カラム
+     ============================================================ -->
+<section class="hero">
+
+  <div class="wrap hero-grid">
+
+    <!-- ---- 左カラム：キャッチコピー・説明文・ボタン ---- -->
+    <div class="hero-inner">
+      <span class="eyebrow">個人開発 / Web アプリ</span>
+      <h1>つくったものを、<br><span class="accent">そっと世界へ。</span></h1>
+      <p class="lead">
+        AIオンリー無料オンリーで作ってみたらどうなるかがスタート地点。<br>
+        まずは自分が苦手だった語学学習(主に英語)のアプリから。
+        今作りたいものとして頭にあるのが、美容系のKPI管理アプリや、お店の予約システム。<br>
+        予定は未定ですが(笑　作って行ければなと思ってます.
+
+      </p>
+      <div class="btn-row">
+        <!-- 「公開中のアプリを見る」→ ページ内の #apps セクションへ移動 -->
+        <a class="btn btn-primary" href="#apps">公開中のアプリを見る</a>
+        <!-- ▼要編集：ここに note の記事URLを設定してください -->
+        <a class="btn btn-outline" href="#" target="_blank" rel="noopener">
+          note の記事を読む
+        </a>
+      </div>
+    </div>
+
+    <!-- ---- 右カラム：写真エリア ---- -->
+    <div class="hero-media">
+      <div class="frame">
+        <!-- Photo by caffeine on Pexels（フリー素材・商用利用可） -->
+        <img src="https://images.pexels.com/photos/32063655/pexels-photo-32063655.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="あたたかい光の差し込む作業スペース">
+      </div>
+      <!-- 写真の左下に重なる、付箋風のミニラベル -->
+      <div class="sticker">As I please, at my own pace 🌿</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     JOURNEY セクション：note → GitHub → レンタルサーバー
+     ----------------------------------------------------------------
+     アプリを作って公開するまでの3ステップを、横並びの点線で
+     つないで見せているパート。
+     ============================================================ -->
+<section class="journey" id="journey">
+  <div class="wrap">
+
+    <div class="head fade-up">
+      <span class="eyebrow">HOW IT'S MADE</span>
+      <h2>私のやり方進め方</h2>
+    </div>
+
+    <!-- .path の中に .step を3つ並べる。
+         .step 内の .icon が丸い写真、.tag が下の小さなラベル -->
+    <div class="path">
+
+      <!-- STEP 1: note -->
+      <div class="step fade-up">
+        <div class="icon">
+          <!-- Photo by Erika Andrade on Pexels -->
+          <img src="https://images.pexels.com/photos/30703810/pexels-photo-30703810.jpeg?auto=compress&cs=tinysrgb&w=400" alt="ノートとコーヒーのある机">
+          <span class="emoji">📝</span>
+        </div>
+        <h3>note</h3>
+        <p>たまに開発の記事を書いてます。大抵制作過程と制作動機。</p>
+        <span class="tag">はじまり</span>
+      </div>
+
+      <!-- STEP 2: GitHub -->
+      <div class="step fade-up">
+        <div class="icon">
+          <!-- Photo by Rodrigo Santos on Pexels -->
+          <img src="https://images.pexels.com/photos/3888151/pexels-photo-3888151.jpeg?auto=compress&cs=tinysrgb&w=400" alt="コードが表示されたノートパソコン">
+          <span class="emoji">🗂️</span>
+        </div>
+        <h3>GitHub</h3>
+        <p>コード管理の必需品。一度使うと手放せない。ないと色々忘れる</p>
+        <span class="tag">つくる</span>
+      </div>
+
+      <!-- STEP 3: レンタルサーバー -->
+      <div class="step fade-up">
+        <div class="icon">
+          <!-- Photo by picjumbo.com on Pexels -->
+          <img src="https://images.pexels.com/photos/196658/pexels-photo-196658.jpeg?auto=compress&cs=tinysrgb&w=400" alt="観葉植物のある整ったデスク">
+          <span class="emoji">🌐</span>
+        </div>
+        <h3>レンタルサーバー</h3>
+        <p>紆余曲折の選択サーバー。お試しで公開しています。</p>
+        <span class="tag">とどける</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROFILE セクション
+     ----------------------------------------------------------------
+     ネット上に公開するページのため、リアルネームは非公開。
+     顔写真の代わりに、イニシャル入りの丸いアバター（CSSで生成）
+     と、装飾用のポラロイド風写真を使用。
+     ============================================================ -->
+<section class="profile" id="profile">
+  <div class="wrap fade-up">
+    <div class="profile-card">
+
+      <!-- カード右上に重ねる、傾いた装飾写真（花のポラロイド風） -->
+      <div class="profile-polaroid">
+        <!-- Photo by Allie on Pexels -->
+        <img src="https://images.pexels.com/photos/15093258/pexels-photo-15093258.jpeg?auto=compress&cs=tinysrgb&w=300" alt="ドライフラワーの飾り">
+      </div>
+
+      <!-- イニシャルのみのアバター。 -->
+      <div class="avatar"><span>R</span></div>
+
+      <div class="profile-text">
+        <h2>プロフィール</h2>
+        <p>
+          はじめまして。作るの大好きな人です。ITやCADやら特殊事務とかやりながら、最近はC# / .NETを中心にWebアプリ開発をしています。
+          生成AI（くろみ や チャッピー、ジェミ子 など）をパートナーに、企画から実装まで一人でこつこつやってます。
+          少しずつですが、作ったものを通じて自己紹介できればと思っています。
+        </p>
+        <span class="profile-note">※ ネット上のため、リアルネームは非公開にしています</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     APPS セクション（公開中・近日公開のアプリ紹介）
+     ----------------------------------------------------------------
+     ★テンプレート化ポイント★
+     このセクションの中身（カード）はHTMLに直接書かれていない。
+     ページ下部の <script> 内にある currentApps / futureApps という
+     JavaScriptの配列データをもとに、自動的にカードが生成される。
+
+     新しいアプリを追加したいときは、このHTMLではなく
+     下の <script> 内の配列にオブジェクトを1つ追加するだけでOK。
+     ============================================================ -->
+<section class="apps" id="apps">
+  <div class="wrap">
+    <div class="head fade-up">
+      <span class="eyebrow">APPS</span>
+      <h2>つくっているアプリたち</h2>
+    </div>
+
+    <!-- アプリカード（公開中・近日公開を問わず、すべてここにJSで挿入される） -->
+    <div class="app-grid" id="app-grid-slot"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     フッター
+     ============================================================ -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <!-- ▼要編集：それぞれ実際のURLに置き換えてください -->
+      <a href="#" target="_blank" rel="noopener">note</a>
+      <a href="#" target="_blank" rel="noopener">GitHub</a>
+      <a href="#" target="_blank" rel="noopener">お問い合わせ</a>
+    </div>
+    <p class="copyright">© 2026 apps.note — Powered by GitHub Pages</p>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JavaScript
+     ----------------------------------------------------------------
+     このページの動きを担当する部分。大きく分けて2つの役割がある。
+
+     ①アプリカードの自動生成
+       currentApps（公開中）/ futureApps（近日公開）という配列を
+       元に、APPSセクション内にカードのHTMLを組み立てて挿入する。
+
+     ②スクロール時のふわっと表示演出
+       class="fade-up" が付いた要素が画面内に入ったタイミングで
+       is-visible クラスを付与し、CSS側のアニメーションを発火させる。
+     ============================================================ -->
+<script>
+
+  /* ------------------------------------------------------------
+     ①-a：公開中アプリのデータ
+     ------------------------------------------------------------
+     1つのオブジェクトが、カード1枚分の情報に対応する。
+       icon  : カード左上に重ねる小さな絵文字バッジ
+       img   : カードに表示する写真のURL（Pexelsのフリー素材）
+       title : アプリ名（見出し）
+       desc  : アプリの説明文
+       href  : 「アプリを見る」ボタンのリンク先
+               ▼要編集：レンタルサーバー上の実際のアプリURLに
+                         置き換えてください（現在は "#" のまま）
+     現在は1件のみだが、新しいアプリを公開したら
+     この配列にオブジェクトを追加していく。
+     ------------------------------------------------------------ */
+  const currentApps = [
+    {
+      icon: "🔤",
+      // Image generated by AI
+      img: "img/study.png",
+      title: "ゼロから学べる学習アプリ",
+      desc: "英語が苦手な人が、無理なく学べるようにと考えた学習アプリです。単語や文法を、やさしいステップで積み上げていきます。",
+      href: "#" // ▼要編集：レンタルサーバー上のアプリURLに置き換えてください
+    }
+  ];
+
+  /* ------------------------------------------------------------
+     ①-b：近日公開アプリのデータ
+     ------------------------------------------------------------
+     currentApps と同じ形のオブジェクトを配列に並べる。
+     こちらは「アプリを見る」ボタンがない代わりに、
+     「近日公開」バッジ（.status.soon）が自動で付く。
+     アプリが実際に公開されたら、該当のオブジェクトを
+     futureApps から currentApps に移動させ、href を追加すればよい。
+     ------------------------------------------------------------ */
+  const futureApps = [
+    {
+      icon: "💅",
+      // Image generated by AI
+      img: "img/Beauty.png",
+      title: "美容系KPI管理アプリ",
+      desc: "自分のお洒落度が解る？！かもしれないKPIを、によによしながら確認できるダッシュボードアプリです。"
+    },
+    {
+      icon: "📅",
+      // Image generated by AI
+      img: "img/reservation.png",
+      title: "予約システム",
+      desc: "複雑な処理はしません。簡単にお店の予約受付・管理を行うためのアプリです。"
+    }
+  ];
+
+  /* ------------------------------------------------------------
+     ①-c：アプリカードをまとめて描画
+     ------------------------------------------------------------
+     以前は「公開中アプリ用の特集カード」と「近日公開アプリ用の
+     小さいカード」を別々の場所に描画していたが、参考画像の
+     レイアウト（3枚横並びの均等カード）に合わせて、
+     currentApps → futureApps の順に、同じ .app-grid の中へ
+     1枚ずつ描画するように変更した。
+
+     status引数で "live"（公開中）か "soon"（近日公開）かを渡し、
+     renderAppCard関数の中でバッジ・ボタン・アニメーション用の
+     クラス（is-live / is-soon）を出し分けている。
+     ------------------------------------------------------------ */
+
+  /**
+   * 1件分のアプリ情報から、カードのHTML文字列を組み立てる関数
+   * @param {Object} app    - アプリ情報（icon, img, title, desc, href）
+   * @param {string} status - "live"（公開中）または "soon"（近日公開）
+   * @returns {string} カード1枚分のHTML
+   */
+  function renderAppCard(app, status){
+    const isLive = status === "live";
+
+    // isLive の場合は「アプリを見る」の有効ボタン、
+    // isLive でない場合は「準備中」の押せないボタン（見た目だけ）を出す
+    const statusLabel = isLive ? "公開中" : "近日公開";
+    const buttonHtml = isLive
+      ? `<a class="btn btn-primary" href="${app.href}" target="_blank" rel="noopener">アプリを見る</a>`
+      : `<span class="btn btn-disabled">準備中</span>`;
+
+    return `
+      <div class="app-card fade-up ${isLive ? "is-live" : "is-soon"}">
+        <div class="thumb">
+          <img src="${app.img}" alt="${app.title}">
+          <span class="emoji">${app.icon}</span>
+        </div>
+        <span class="status ${isLive ? "live" : "soon"}">${statusLabel}</span>
+        <h3>${app.title}</h3>
+        <p>${app.desc}</p>
+        ${buttonHtml}
+      </div>
+    `;
+  }
+
+  // カードを挿入する先の要素（APPSセクション内の空div）
+  const gridSlot = document.getElementById("app-grid-slot");
+
+  // 公開中アプリ → 近日公開アプリ の順番で、同じグリッドに描画していく
+  currentApps.forEach(app => {
+    gridSlot.insertAdjacentHTML("beforeend", renderAppCard(app, "live"));
+  });
+  futureApps.forEach(app => {
+    gridSlot.insertAdjacentHTML("beforeend", renderAppCard(app, "soon"));
+  });
+
+  /* ------------------------------------------------------------
+     ②：スクロール連動のふわっと表示アニメーション
+     ------------------------------------------------------------
+     IntersectionObserver は「監視対象の要素が画面内に入ったかどうか」
+     をブラウザに検知してもらうためのAPI。
+
+     entries には、監視している要素たちの「現在見えているかどうか」
+     の情報が渡ってくる。isIntersecting が true＝画面内に入った、
+     というタイミングで is-visible クラスを追加し、
+     style.css 側の .fade-up.is-visible の指定（透明→不透明、
+     少し下→元の位置）でふわっと表示させている。
+
+     一度表示されたら observer.unobserve() でその要素の監視をやめる
+     （毎回スクロールのたびに再計算しないようにするための最適化）。
+
+     threshold: 0.15 は「要素の15%が画面に入ったら発火する」という設定。
+     ------------------------------------------------------------ */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  // class="fade-up" を持つすべての要素（JSで動的に追加されたアプリカードも含む）を監視対象にする
+  document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+
+</script>
+
+</body>
+</html>

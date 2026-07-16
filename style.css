@@ -1,0 +1,664 @@
+/* ================================================================
+   style.css
+   ----------------------------------------------------------------
+   このファイルは index.html から <link rel="stylesheet"> で
+   読み込まれています。デザインを調整したいときは、基本的に
+   このファイルだけを編集すればOKです。
+
+   全体の構成（上から順番）：
+   1. デザイントークン（色・フォント・角丸などの共通変数）
+   2. 全体のリセット・基本スタイル
+   3. ヘッダー（ナビゲーション）
+   4. 背景の装飾（ふわふわブロブ）
+   5. ヒーロー（一番上の大きな見出し部分）
+   6. ボタン共通スタイル
+   7. ジャーニー（note→GitHub→サーバーの流れ）
+   8. プロフィール
+   9. アプリ紹介（公開中・近日公開）
+   10. フッター
+   ================================================================ */
+
+
+/* ================================================================
+   1. デザイントークン（CSS変数）
+   ----------------------------------------------------------------
+   ここで定義した値は、下のスタイル全体で var(--変数名) の形で
+   使い回しています。例えば全体の色味を変えたいときは、
+   ここの色コードを書き換えるだけで、ページ全体に反映されます。
+   ================================================================ */
+:root{
+  /* ================================================================
+     カラーパレット更新メモ（2026-07-11）
+     ----------------------------------------------------------------
+     ユーザー提供の参考画像（Web Appsカード：本×コーヒー、コスメ、
+     カフェ店内の3枚を使ったデザイン）に合わせて、色味を
+     「オレンジ寄りのコーラル」から「ダスティローズ（くすみピンク）
+     ＋グレー」の落ち着いたトーンに変更。
+     変数名（--coral, --peach など）は元のまま維持し、
+     中の色コードだけを差し替えているので、HTML側の修正は不要。
+     ================================================================ */
+
+  /* ---- 背景色 ---- */
+  --cream:      #FBF4F0;   /* ページ全体の背景色。ほんのりピンクがかった生成り色 */
+  --cream-deep: #F5E9E3;   /* セクションの背景に濃淡をつけるための色（journey, apps セクションで使用） */
+
+  /* ---- アクセントカラー（ダスティローズ系） ---- */
+  --peach:      #EFCACB;   /* サブアクセント（旧：ピーチ→薄いローズ）。装飾ブロブや枠線などに使用 */
+  --coral:      #E0A0A3;   /* メインアクセント（旧：コーラル→中間のローズ）。ボタンや装飾線など */
+  --coral-deep: #C97B80;   /* 一番強調したい部分（旧：濃コーラル→濃いダスティローズ）。ボタン背景、見出しの色文字など */
+  --pink-soft:  #F3DEDF;   /* 差し色。バッジやタグの背景に使用（旧よりオレンジみを抜いた淡ローズ） */
+
+  /* ---- 「Coming Soon／準備中」用のニュートラルグレー ----
+     参考画像で「準備中」系の要素だけローズではなくグレーに
+     なっていたため、専用のグレートークンを追加。 */
+  --gray-soft:  #ECEAEA;   /* Coming Soonバッジなどの背景 */
+  --gray-text:  #8C8890;   /* Coming Soonバッジなどの文字色 */
+
+  /* ---- テキストカラー ---- */
+  --brown-ink:  #33313A;   /* 見出し用の濃い色（旧：茶色→チャコールネイビーに変更し、引き締まった印象に） */
+  --brown-sub:  #74707A;   /* 本文用のやわらかい色（旧：茶色寄り→ニュートラルなグレーに変更） */
+  --white:      #FFFFFF;
+
+  /* ---- フォント ----
+     Google Fonts から読み込んでいる丸ゴシック系フォント。
+     index.html の <head> 内で <link> タグにより読み込み済み。 */
+  --font-display: 'Zen Maru Gothic', sans-serif;   /* 見出し用（丸みが強く、かわいい印象） */
+  --font-body:    'M PLUS Rounded 1c', sans-serif; /* 本文用（読みやすい丸ゴシック） */
+
+  /* ---- 角丸のサイズ ----
+     カードやボタンの角丸を統一するための変数。
+     大：カード全体／中：写真・サムネイル／小：小さめのパーツ */
+  --radius-lg: 32px;
+  --radius-md: 24px;
+  --radius-sm: 16px;
+
+  /* ---- 影 ----
+     カードやボタンに共通で使う、やわらかい影のスタイル
+     （旧オレンジ寄りのrgbaから、ローズ寄りのrgbaに変更） */
+  --shadow-soft: 0 12px 30px rgba(201, 123, 128, 0.14);
+}
+
+
+/* ================================================================
+   2. 全体のリセット・基本スタイル
+   ================================================================ */
+
+/* 全要素の余白・ボックスサイズの基準をリセット（ブラウザごとの差異をなくす） */
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+/* ページ内リンク（#profile など）クリック時に、カクッとではなく
+   スムーズにスクロールさせる */
+html{ scroll-behavior:smooth; }
+
+body{
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--brown-sub);
+  line-height: 1.9;        /* 行間を広めにして、やわらかい読み心地に */
+  overflow-x: hidden;      /* 装飾ブロブがはみ出して横スクロールが出るのを防止 */
+}
+
+/* 画像・SVGの下に余計な隙間ができるのを防ぐ（インライン要素対策） */
+img,svg{ display:block; max-width:100%; }
+
+/* リンクの色・下線をリセットし、各パーツ側で個別に装飾する */
+a{ color: inherit; text-decoration:none; }
+
+/* 見出しは共通で丸ゴシック（--font-display）を使用 */
+h1,h2,h3{
+  font-family: var(--font-display);
+  color: var(--brown-ink);
+  line-height: 1.5;
+}
+
+/* セクション内のコンテンツ幅を揃えるための共通コンテナ。
+   このクラスをセクション内の <div> に付けることで、
+   左右の余白と最大幅が統一される。 */
+.wrap{
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* 各セクション見出しの上にある小さなラベル（例：「HOW IT'S MADE」）
+   ピル型（角がまるい）のバッジスタイル */
+.eyebrow{
+  display:inline-block;
+  font-family: var(--font-body);
+  font-weight:700;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;  /* 文字間を広げてラベルらしい雰囲気に */
+  color: var(--coral-deep);
+  background: var(--pink-soft);
+  padding: 6px 16px;
+  border-radius: 999px;    /* 999px指定で完全な半円＝ピル型になる */
+  margin-bottom: 18px;
+}
+
+/* 各 <section> 共通の上下余白 */
+section{ position: relative; padding: 110px 0; }
+
+/* ---------- スクロールで下からふわっと出てくる演出 ----------
+   使い方：要素に class="fade-up" を付けておくと、初期状態は
+   透明＆少し下にずれた状態になる。
+   index.html 側の JavaScript（IntersectionObserver）が、
+   その要素が画面に入ったタイミングで is-visible クラスを
+   自動的に追加し、ふわっと表示させる仕組み。 */
+.fade-up{
+  opacity:0;
+  transform: translateY(24px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.fade-up.is-visible{ opacity:1; transform: translateY(0); }
+
+
+/* ================================================================
+   3. ヘッダー（画面上部に固定されるナビゲーション）
+   ================================================================ */
+header{
+  position: fixed;          /* スクロールしても常に画面上部に表示 */
+  top:0; left:0; right:0;
+  z-index: 100;              /* 他の要素より手前に表示 */
+  background: rgba(255,248,242,0.85); /* 半透明にして、下のコンテンツが少し透けるように */
+  backdrop-filter: blur(8px);          /* 透けた部分をぼかして、すりガラス風の質感にする */
+  border-bottom: 1px solid rgba(201,123,128,0.14); /* ローズ寄りの色に変更した薄い区切り線 */
+}
+header .wrap{
+  height: 72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between; /* ロゴを左、ナビを右に配置 */
+}
+.logo{
+  font-family: var(--font-display);
+  font-weight:900;
+  font-size: 1.2rem;
+  color: var(--coral-deep);
+  letter-spacing: 0.02em;
+}
+.logo span{ color: var(--brown-ink); } /* ロゴ内の一部だけ色を変える用（.note の部分など） */
+
+nav ul{
+  display:flex;
+  gap: 32px;
+  list-style:none; /* リストの黒丸を非表示 */
+}
+nav a{
+  font-weight:500;
+  font-size:0.92rem;
+  color: var(--brown-ink);
+  position:relative;
+  padding-bottom:2px;
+}
+/* ナビリンクにマウスを乗せたときに、下線がアニメーションしながら伸びる演出 */
+nav a::after{
+  content:"";
+  position:absolute; left:0; bottom:-2px;
+  width:0; height:2px;
+  background: var(--coral);
+  transition: width .25s ease;
+}
+nav a:hover::after{ width:100%; }
+
+/* スマホ幅（640px以下）ではナビの余白と文字を少し小さく */
+@media (max-width:640px){ nav ul{ gap:16px; } nav a{ font-size:0.8rem; } }
+
+
+/* ================================================================
+   4. 動きを減らす」設定をしているユーザー向け
+   ----------------------------------------------------------------
+  「動きを減らす」設定をしているユーザー向けに、
+   スクロール演出（.fade-up）と、カードホバー時の
+   jellyアニメーション・浮き上がりトランジションを止める
+   （アクセシビリティ対応）。 
+   ================================================================ */
+
+
+@media (prefers-reduced-motion: reduce){
+  .fade-up{ transition:none; opacity:1; transform:none; }
+  .app-card{ transition:none; }
+  .app-card.is-live:hover{ transform:none; }
+  .app-card.is-soon:hover{ animation:none; }
+}
+
+
+/* ================================================================
+   5. ヒーロー（ページ最上部の大きな見出しエリア）
+   ----------------------------------------------------------------
+   PC幅では「左：テキスト／右：写真」の2カラム構成（.hero-grid）。
+   860px以下では自動的に1カラムの縦積みに切り替わる。
+   ================================================================ */
+.hero{
+  padding-top: 160px;   /* 固定ヘッダーの下に隠れないよう、上部に余白を大きく確保 */
+  padding-bottom: 120px;
+}
+
+/* ヒーロー内の2カラムレイアウト（左:テキスト 45% / 右:写真 55%程度） */
+.hero-grid{
+  position:relative;
+  z-index:1;     /* 背景ブロブより手前に表示 */
+  display:grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
+  align-items:center;
+}
+
+.hero h1{
+  /* clamp(最小, 推奨, 最大) で、画面幅に応じて自動的に文字サイズが変化する */
+  font-size: clamp(2.1rem, 4.2vw, 3.2rem);
+  font-weight:900;
+  margin-bottom: 22px;
+}
+.hero h1 .accent{ color: var(--coral-deep); } /* 見出し内の一部だけ強調色にする用 */
+
+.hero p.lead{
+  max-width: 480px; /* 横幅が広い画面でも、1行が長くなりすぎないよう制限 */
+  margin: 0 0 36px;
+  font-size: 1.05rem;
+  color: var(--brown-sub);
+}
+
+/* ヒーロー内のボタンを横並びにするコンテナ（折り返し対応） */
+.btn-row{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+/* ---- ヒーローの写真エリア ---- */
+.hero-media{
+  position:relative; /* 中の「sticker（付箋風ラベル）」を絶対配置するための基準 */
+}
+.hero-media .frame{
+  border-radius: var(--radius-lg);
+  overflow:hidden;          /* 内側の画像を角丸の形に切り抜く */
+  box-shadow: var(--shadow-soft);
+  transform: rotate(2deg);  /* わずかに傾けて、写真をふわっと貼ったような雰囲気に */
+  border: 6px solid var(--white); /* 白フチをつけてポラロイド風に */
+}
+.hero-media img{
+  width:100%;
+  height: 380px;
+  object-fit: cover;  /* 画像の縦横比を保ったまま、枠にぴったり合わせて切り抜く */
+  display:block;
+}
+/* 写真の左下に重ねている、手書き風の付箋ラベル */
+.hero-media .sticker{
+  position:absolute;
+  bottom:-22px;
+  left:-22px;
+  background: var(--white);
+  padding: 14px 20px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-soft);
+  transform: rotate(-4deg); /* 写真とは逆方向に少し傾け、貼り付けた感を強調 */
+  font-family: var(--font-display);
+  font-weight:700;
+  font-size: 0.9rem;
+  color: var(--coral-deep);
+}
+
+/* 860px以下（タブレット・スマホ）では2カラムをやめて1カラムに */
+@media (max-width: 860px){
+  .hero-grid{ grid-template-columns: 1fr; text-align:center; }
+  .hero p.lead{ margin-left:auto; margin-right:auto; }
+  .btn-row{ justify-content:center; }
+  .hero-media{ max-width:360px; margin: 40px auto 0; }
+  .hero-media .frame{ transform:none; } /* スマホでは傾きをなくしてシンプルに */
+}
+
+
+/* ================================================================
+   6. ボタン共通スタイル
+   ----------------------------------------------------------------
+   .btn がベースクラス。.btn-primary（塗りつぶし）と
+   .btn-outline（線のみ）の2種類を用意している。
+   ================================================================ */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 14px 30px;
+  border-radius: 999px;   /* ピル型ボタン */
+  font-weight:700;
+  font-size:0.95rem;
+  transition: transform .2s ease, box-shadow .2s ease; /* ホバー時のアニメーション用 */
+}
+/* メインボタン：コーラル色で塗りつぶし、ホバーで少し浮き上がる */
+.btn-primary{
+  background: var(--coral-deep);
+  color: var(--white);
+  box-shadow: var(--shadow-soft);
+}
+.btn-primary:hover{ transform: translateY(-3px); box-shadow: 0 16px 34px rgba(201,123,128,0.32); } /* ホバー時の影もローズ寄りに */
+
+/* サブボタン：白背景＋線のみ。控えめな行動（noteを読む、など）に使用 */
+.btn-outline{
+  background: var(--white);
+  color: var(--coral-deep);
+  border: 1.5px solid var(--coral);
+}
+.btn-outline:hover{ transform: translateY(-3px); background: var(--pink-soft); }
+
+
+/* ================================================================
+   7. JOURNEY セクション（note → GitHub → レンタルサーバー）
+   ----------------------------------------------------------------
+   このサイトの「顔」になるパート。アプリを作って公開するまでの
+   3ステップを、点線でつないだ横並びの流れとして見せている。
+   ================================================================ */
+.journey{ background: var(--cream-deep); } /* 前後のセクションと区別するため、背景を少し濃く */
+.journey .head{ text-align:center; margin-bottom: 70px; }
+.journey h2{ font-size: clamp(1.6rem,3vw,2.1rem); }
+
+/* 3つのステップを横並びにするコンテナ */
+.path{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap: 20px;
+  position:relative; /* 疑似要素（点線）を絶対配置するための基準 */
+}
+/* ステップ同士をつなぐ、横向きの点線。
+   background-image のグラデーションを繰り返すことで点線を表現している */
+.path::before{
+  content:"";
+  position:absolute;
+  top:44px; left:60px; right:60px;  /* アイコンの中央あたりの高さに線を通す */
+  height:2px;
+  background-image: linear-gradient(to right, var(--coral) 50%, transparent 0%);
+  background-size: 14px 2px;         /* 1つの点線パーツのサイズ */
+  background-repeat: repeat-x;       /* 横方向に繰り返して点線にする */
+  z-index:0;
+}
+.step{
+  flex:1;
+  text-align:center;
+  position:relative;
+  z-index:1;   /* 点線（.path::before）より手前に表示 */
+}
+/* ステップごとの丸い写真アイコン */
+.step .icon{
+  width:96px; height:96px;
+  margin: 0 auto 20px;
+  border-radius:50%;    /* 正円にする */
+  overflow:hidden;       /* 内側の写真を丸くトリミング */
+  position:relative;     /* 右下の絵文字バッジを配置する基準 */
+  box-shadow: var(--shadow-soft);
+  border: 4px solid var(--white); /* 写真の外側に白フチ */
+  outline: 2px solid var(--peach); /* さらに外側にピーチ色のライン */
+}
+.step .icon img{
+  width:100%; height:100%;
+  object-fit:cover; /* 円の形にぴったり収まるよう、写真を切り抜いて表示 */
+}
+/* 丸い写真の右下に重ねる、小さな絵文字バッジ（何のステップか一目でわかるように） */
+.step .icon .emoji{
+  position:absolute;
+  bottom:-6px; right:-6px;
+  width:34px; height:34px;
+  background: var(--white);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1rem;
+  box-shadow: var(--shadow-soft);
+}
+.step h3{ font-size:1.05rem; margin-bottom:8px; }
+.step p{ font-size:0.88rem; padding: 0 8px; }
+/* 各ステップ下の小さなタグ（「はじまり」「つくる」「とどける」） */
+.step .tag{
+  display:inline-block;
+  margin-top:10px;
+  font-size:0.72rem;
+  font-weight:700;
+  color:var(--coral-deep);
+  background: var(--pink-soft);
+  padding:3px 12px;
+  border-radius:999px;
+}
+
+/* スマホ幅では横並びをやめて縦に積む。点線もつながりが不自然になるため非表示に */
+@media (max-width:720px){
+  .path{ flex-direction:column; gap:44px; }
+  .path::before{ display:none; }
+}
+
+
+/* ================================================================
+   8. PROFILE セクション（名前は非公開）
+   ================================================================ */
+.profile{ }
+.profile-card{
+  display:flex;
+  gap: 48px;
+  align-items:center;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 52px;
+  box-shadow: var(--shadow-soft);
+  position:relative;   /* ポラロイド写真を絶対配置するための基準 */
+  overflow:visible;    /* ポラロイド写真がカードの外にはみ出せるようにする */
+}
+/* カード右上に重ねている、傾いたポラロイド風の小さな写真 */
+.profile-polaroid{
+  position:absolute;
+  top:-24px;
+  right:36px;
+  width:120px;
+  background: var(--white);
+  padding:8px 8px 18px;  /* 下だけ余白を大きくして、本物のポラロイドっぽい余白バランスに */
+  border-radius: 10px;
+  box-shadow: var(--shadow-soft);
+  transform: rotate(6deg); /* 少し傾けて、貼った感じを演出 */
+}
+.profile-polaroid img{
+  width:100%; height:90px;
+  object-fit:cover;
+  border-radius:4px;
+}
+/* スマホでは場所を取りすぎるため非表示にする */
+@media (max-width:640px){
+  .profile-polaroid{ display:none; }
+}
+
+/* イニシャルを表示する丸いアバター（名前非公開のため、顔写真の代わりに使用） */
+.avatar{
+  flex: 0 0 140px;  /* 幅140pxで固定し、隣のテキストに押しつぶされないようにする */
+  width:140px; height:140px;
+  border-radius:50%;
+  background: linear-gradient(160deg, var(--peach), var(--coral)); /* グラデーション背景 */
+  display:flex; align-items:center; justify-content:center;
+}
+.avatar span{
+  font-family: var(--font-display);
+  font-size:2.4rem;
+  font-weight:900;
+  color: var(--white);
+}
+.profile-text h2{ font-size:1.5rem; margin-bottom:16px; }
+.profile-text p{ font-size:0.95rem; }
+/* 「名前は非公開にしています」の注意書きバッジ */
+.profile-note{
+  display:inline-block;
+  margin-top:16px;
+  font-size:0.78rem;
+  color: var(--coral-deep);
+  background: var(--pink-soft);
+  padding:5px 14px;
+  border-radius:999px;
+}
+
+/* スマホでは横並び（アバター＋テキスト）をやめて縦に中央寄せ */
+@media (max-width:640px){
+  .profile-card{ flex-direction:column; text-align:center; padding:36px 28px; }
+}
+
+
+/* ================================================================
+   9. APPS セクション（公開中・近日公開のアプリ紹介）
+   ----------------------------------------------------------------
+   ここに表示されるカードの「内容」自体は index.html 内の
+   JavaScript（currentApps / futureApps の配列）から自動生成される。
+   このCSSは、生成されたHTMLの「見た目」だけを担当している。
+
+   ★レイアウト変更メモ★
+   以前は「公開中アプリだけ大きい特集カード＋近日公開2枚を下に
+   グリッド表示」という2階建て構成だったが、参考画像に合わせて
+   「公開中・近日公開を問わず、同じ大きさのカードを横一列（3枚）に
+   並べる」構成に変更した。カードの種類は class="app-card is-live"
+   （公開中）と class="app-card is-soon"（近日公開）で区別している。
+   ================================================================ */
+.apps{ background: var(--cream-deep); }
+.apps .head{ text-align:center; margin-bottom:60px; }
+
+/* アプリカードを横一列に並べるグリッド。
+   PCでは3等分の3列、タブレットで2列、スマホで1列に自動で切り替わる。 */
+.app-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  align-items: start; /* 高さが違うカードがあっても、上端をそろえる */
+}
+
+/* ---- カード共通スタイル（公開中・近日公開どちらにも適用） ---- */
+.app-card{
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  box-shadow: var(--shadow-soft);
+  border: 2px solid transparent; /* is-live のときだけ、ここに色がつく */
+  display:flex;
+  flex-direction:column;
+  /* transform（浮き上がり）と box-shadow（影の強さ）の変化を
+     なめらかにするための共通トランジション。
+     cubic-bezier(0.34, 1.56, 0.64, 1) は「一度行き過ぎてから
+     戻ってくる」バネのようなイージングカーブ。単純な ease よりも
+     動き出しが柔らかく、着地が弾むような自然な質感になる。 */
+  transition: transform .45s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .45s ease;
+}
+.app-card .thumb{
+  width:100%;
+  height:170px;
+  border-radius: var(--radius-sm);
+  overflow:hidden;
+  position:relative;   /* 右上に重ねる絵文字バッジの配置基準 */
+  margin-bottom:18px;
+}
+.app-card .thumb img{
+  width:100%; height:100%;
+  object-fit:cover;
+}
+/* 写真の右上に重ねる、アプリの種類を示す絵文字バッジ */
+.app-card .thumb .emoji{
+  position:absolute;
+  top:12px; right:12px;
+  width:36px; height:36px;
+  background: rgba(255,255,255,0.92);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.05rem;
+}
+.app-card h3{ font-size:1.15rem; margin-bottom:10px; }
+.app-card p{
+  font-size:0.88rem;
+  margin-bottom:20px;
+  flex-grow:1; /* 説明文の長さが違っても、ボタンの位置を下端でそろえる */
+}
+/* カード内のボタンは、幅いっぱい・中央寄せで表示 */
+.app-card .btn{ width:100%; justify-content:center; }
+
+/* 「公開中」「近日公開」の状態を示す小さなバッジ（共通スタイル＋色違い） */
+.status{
+  display:inline-block;
+  align-self:flex-start; /* flexコンテナ内でも、バッジの幅を内容ぴったりにする */
+  font-size:0.72rem;
+  font-weight:700;
+  padding:4px 12px;
+  border-radius:999px;
+  margin-bottom:14px;
+}
+.status.live{ background:var(--coral-deep); color:var(--white); } /* 公開中＝サイトのメインアクセント（ローズ）で塗りつぶし、目立たせる */
+.status.soon{ background:var(--gray-soft); color:var(--gray-text); } /* 近日公開＝あえて彩度を落としたグレーにして「まだ準備中」の温度感を出す */
+
+/* 近日公開カードの「準備中」ボタン（押せない見た目にするためのスタイル） */
+.btn-disabled{
+  background: var(--gray-soft);
+  color: var(--gray-text);
+  cursor: default;       /* リンクだが、押せる感じを出さないカーソルにする */
+  box-shadow: none;
+}
+.btn-disabled:hover{ transform:none; } /* ホバーで浮き上がらせない（＝押せる感じを出さない） */
+
+/* ================================================================
+   カードごとの「性格づけ」アニメーション（ホバー時のみ発火）
+   ----------------------------------------------------------------
+   ・公開中アプリ（is-live）    → マウスを乗せると、ふわっと上に浮く
+   ・近日公開アプリ（is-soon）  → マウスを乗せると、ぷるんとゼリーの
+                                   ように一瞬伸縮する（jellyアニメーション）
+   常時アニメーションさせ続けるのではなく、「触れたら反応する」形に
+   することで、うるさくなりすぎず、かつ公開中／近日公開の違いが
+   ひと目でわかるようにしている。
+   ================================================================ */
+
+/* 公開中カード：外枠をアクセントカラーにして目立たせる。
+   マウスオーバー時だけ、8px上に浮き上がり、影を強めて
+   「押せそう」な質感を出す。カーソルも手のマークに。 */
+.app-card.is-live{
+  border-color: var(--coral-deep);
+}
+.app-card.is-live:hover{
+  transform: translateY(-100px);
+  box-shadow: 0 20px 40px rgba(201,123,128,0.22); /* ローズ寄りの色に合わせた強めの影 */
+  cursor: pointer;
+}
+
+/* 近日公開カード：普段は完全に静止。
+   マウスオーバー時だけ、0.8秒かけて「ぶるんっ」と大きめに伸縮する
+   ゼリーのようなアニメーションを1回再生する。影も少し強めて
+   接地感を出す。 */
+.app-card.is-soon:hover{
+  animation: jelly 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  box-shadow: 0 15px 30px rgba(74,62,61,0.10);
+}
+/* ぶるんっと大きく伸縮するアニメーションの台本（Jelly）
+   scale(横, 縦) の振れ幅を前回よりも大きくして、
+   ぷるんとした弾力をはっきり感じられるようにしている。 */
+@keyframes jelly{
+  0%   { transform: scale(1, 1); }
+  20%  { transform: scale(1.28, 0.72); }  /* 横に大きく潰れる */
+  40%  { transform: scale(0.75, 1.25); }  /* 縦に大きく伸びる */
+  55%  { transform: scale(1.18, 0.82); }
+  70%  { transform: scale(0.90, 1.10); }
+  85%  { transform: scale(1.06, 0.94); }
+  100% { transform: scale(1, 1); }
+}
+
+/* タブレット幅：3列だと窮屈になるため2列に */
+@media (max-width: 900px){
+  .app-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+/* スマホ幅：1列に積む */
+@media (max-width:600px){
+  .app-grid{ grid-template-columns: 1fr; }
+}
+
+
+/* ================================================================
+   10. FOOTER
+   ================================================================ */
+footer{
+  background: var(--brown-ink); /* 他のセクションと対比させるため、濃い色を使用 */
+  color: #F3E4D8;
+  padding: 56px 0 32px;
+  text-align:center;
+}
+footer .links{
+  display:flex;
+  justify-content:center;
+  gap:26px;
+  margin-bottom:24px;
+  flex-wrap:wrap;
+}
+footer a{ font-size:0.9rem; opacity:0.9; }
+footer a:hover{ opacity:1; text-decoration:underline; }
+footer .copyright{ font-size:0.75rem; opacity:0.6; }
