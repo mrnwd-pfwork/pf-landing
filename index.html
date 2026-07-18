@@ -196,8 +196,12 @@
     <div class="head fade-up">
       <span class="eyebrow">APPS</span>
       <h2>つくっているアプリたち</h2>
+      <!-- 共通のBasic認証アクセス情報。
+           全アプリ共通ID/PW -->
+        <button class="access-toggle" onclick="document.getElementById('access-modal').classList.add('is-open')">
+        アクセス情報を見る
+      </button>
     </div>
-
     <!-- アプリカード（公開中・近日公開を問わず、すべてここにJSで挿入される） -->
     <div class="app-grid" id="app-grid-slot"></div>
   </div>
@@ -217,6 +221,14 @@
     <p class="copyright">© 2026 apps.note — Powered by GitHub Pages</p>
   </div>
 </footer>
+
+<!-- ここ！フッターの後、scriptの前 -->
+<div class="modal-overlay" id="access-modal">
+  <div class="modal-box">
+    <p>各アプリを開くとID/PWを聞かれます。<br>ID: welcome / PW: Rs_20260705-*</p>
+    <button onclick="document.getElementById('access-modal').classList.remove('is-open')">閉じる</button>
+  </div>
+</div>
 
 <!-- ============================================================
      JavaScript

@@ -607,7 +607,7 @@ nav a:hover::after{ width:100%; }
   border-color: var(--coral-deep);
 }
 .app-card.is-live:hover{
-  transform: translateY(-100px);
+  transform: translateY(-45px);
   box-shadow: 0 20px 40px rgba(201,123,128,0.22); /* ローズ寄りの色に合わせた強めの影 */
   cursor: pointer;
 }
@@ -620,14 +620,12 @@ nav a:hover::after{ width:100%; }
   animation: jelly 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   box-shadow: 0 15px 30px rgba(74,62,61,0.10);
 }
-/* ぶるんっと大きく伸縮するアニメーションの台本（Jelly）
-   scale(横, 縦) の振れ幅を前回よりも大きくして、
-   ぷるんとした弾力をはっきり感じられるようにしている。 */
+/* ぶるんっと大きく伸縮するアニメーションの台本（Jelly） */
 @keyframes jelly{
   0%   { transform: scale(1, 1); }
-  20%  { transform: scale(1.28, 0.72); }  /* 横に大きく潰れる */
-  40%  { transform: scale(0.75, 1.25); }  /* 縦に大きく伸びる */
-  55%  { transform: scale(1.18, 0.82); }
+  20%  { transform: scale(1.20, 0.9); }  /* 横に大きく潰れる */
+  40%  { transform: scale(0.85, 1.10); }  /* 縦に大きく伸びる */
+  55%  { transform: scale(1.10, 0.9); }
   70%  { transform: scale(0.90, 1.10); }
   85%  { transform: scale(1.06, 0.94); }
   100% { transform: scale(1, 1); }
@@ -642,6 +640,69 @@ nav a:hover::after{ width:100%; }
   .app-grid{ grid-template-columns: 1fr; }
 }
 
+/* アクセス情報（Basic認証のID/PW）表示ボタン。
+   全アプリ共通のID/PWを、APPSセクションの見出し付近でクリック時に
+   ポップアップ */
+/* 画面全体を覆う半透明の背景。これがあることで「他要素の上に浮いている」感が出る */
+.modal-overlay {
+  display: none;              /* 普段は非表示 */
+  position: fixed;            /* スクロールしても画面に固定 */
+  inset: 0;                   /* 上下左右すべて0＝画面いっぱい */
+  background: rgba(245, 230, 215, 0.6);
+  z-index: 1000;              /* 他の全要素より手前 */
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.is-open {
+  display: flex;               /* 表示時は中央寄せのためflexに */
+}
+.access-toggle {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  background: none;
+  border: none;
+  color: var(--coral-deep);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* モーダルの箱本体。全体トーン（コーラル・角丸）に合わせて可愛くする調整 */
+.modal-box {
+  background: #FEFAF7;
+  padding: 32px;
+  border-radius: var(--radius-lg);        /* 角丸を少し大きくして、より丸みのある印象に */
+  box-shadow: var(--shadow-soft);
+  max-width: 320px;
+  border: 2px solid var(--peach);     /* サイトのアクセントカラーで薄く縁取り */
+  text-align: center;                     /* 文字を中央寄せにして案内文っぽさを和らげる */
+}
+
+/* モーダル内のテキスト部分。サイトの本文フォント・色に合わせる */
+.modal-box p{
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--brown-sub);
+  margin-bottom: 20px;
+  line-height: 1.8;                        /* 行間を広めにして読みやすく */
+}
+
+/* 「閉じる」ボタン。他のサイト内ボタン（.btn-primary）と統一感のあるピル型・コーラル色に */
+.modal-box button{
+  background: var(--coral-deep);
+  color: var(--white);
+  border: none;
+  padding: 10px 28px;
+  border-radius: 999px;                    /* ピル型にして他のボタンと統一 */
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: transform .2s ease;          /* ホバー時になめらかに浮き上がらせるため */
+}
+.modal-box button:hover{
+  transform: translateY(-2px);             /* ホバーで軽く浮き上がる演出 */
+}
 
 /* ================================================================
    10. FOOTER
